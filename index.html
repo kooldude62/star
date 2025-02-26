@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space</title>
+    <title>space</title>
     <style>
         body {
             margin: 0;
@@ -29,10 +29,11 @@
             animation: twinkle 1s infinite;
             animation: move 20s infinite;
         }
-        .planet {
+        .supernova {
             position: absolute;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,0,0,0) 70%);
             border-radius: 50%;
-            animation: move 1s linear infinite;
+            animation: explode 1s forwards;
         }
         @keyframes twinkle {
             0%, 100% { opacity: 0.8; }
@@ -42,6 +43,10 @@
             0% { transform: translateY(0); }
             100% { transform: translateY(-200vh); }
         }
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(5); opacity: 0; }
+        }
         .text {
             position: absolute;
             top: 50%;
@@ -50,6 +55,7 @@
             font-size: 3em;
             opacity: 0;
             animation: fadeIn 10s forwards;
+            animation: move 20 infinite;
         }
         @keyframes fadeIn {
             to { opacity: 1; }
@@ -67,12 +73,33 @@
             star.style.width = `${size}px`;
             star.style.height = `${size}px`;
             star.style.left = `${Math.random() * 100}vw`;
-            star.style.top = `${Math.random() +100}vh`;
+            star.style.top = `${Math.random() * 100}vh`;
             document.body.appendChild(star);
             setTimeout(() => {
                 star.remove();
             }, 20000);
         }
+
+        function createSupernova(x, y) {
+            const supernova = document.createElement('div');
+            supernova.className = 'supernova';
+            supernova.style.width = '100px';
+            supernova.style.height = '100px';
+            supernova.style.left = `${x}px`;
+            supernova.style.top = `${y}px`;
+            supernova.style.left = `${Math.random()*100}vw`;
+            supernova.style.top = `${Math.random() *100}vh`;
+            document.body.appendChild(supernova);
+            setTimeout(() => {
+                supernova.remove();
+            }, 1000);
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                createSupernova(window.innerWidth / 2, window.innerHeight / 2);
+            }
+        });
 
         setInterval(createStar, 300);
     </script>
